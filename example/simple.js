@@ -8,6 +8,6 @@ table
     .addRow(2, 'John', 34)
     .addRow(3, 'Jim', 83);
 
-table.addFooter("123", "456");
+table.addFooter("Footer1", "Footer2");
 
 console.log(table.toString())
