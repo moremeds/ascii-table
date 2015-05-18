@@ -14,7 +14,7 @@
      */
 
     var slice = Array.prototype.slice
-        , toString = Object.prototype.toString
+        , toString = Object.prototype.toString;
 
     /**
      * AsciiTable constructor
@@ -27,7 +27,7 @@
      */
 
     function AsciiTable(name, options) {
-        this.options = options || {}
+        this.options = options || {};
         this.reset(name)
     }
 
@@ -35,15 +35,15 @@
      * Current library version, should match `package.json`
      */
 
-    AsciiTable.VERSION = '0.0.8'
+    AsciiTable.VERSION = '0.0.8';
 
     /*!
      * Alignment constants
      */
 
-    AsciiTable.LEFT = 0
-    AsciiTable.CENTER = 1
-    AsciiTable.RIGHT = 2
+    AsciiTable.LEFT = 0;
+    AsciiTable.CENTER = 1;
+    AsciiTable.RIGHT = 2;
 
     /*!
      * Static methods
@@ -72,10 +72,10 @@
      */
 
     AsciiTable.align = function (dir, str, len, pad) {
-        if (dir === AsciiTable.LEFT) return AsciiTable.alignLeft(str, len, pad)
-        if (dir === AsciiTable.RIGHT) return AsciiTable.alignRight(str, len, pad)
-        if (dir === AsciiTable.CENTER) return AsciiTable.alignCenter(str, len, pad)
-        return AsciiTable.alignAuto(str, len, pad)
+        if (dir === AsciiTable.LEFT) return AsciiTable.alignLeft(str, len, pad);
+        if (dir === AsciiTable.RIGHT) return AsciiTable.alignRight(str, len, pad);
+        if (dir === AsciiTable.CENTER) return AsciiTable.alignCenter(str, len, pad);
+        return AsciiTable.alignAuto(str, len, pad);
     }
 
     /**
@@ -88,14 +88,14 @@
      */
 
     AsciiTable.alignLeft = function (str, len, pad) {
-        if (!len || len < 0) return ''
-        if (str === undefined || str === null) str = ''
-        if (typeof pad === 'undefined') pad = ' '
-        if (typeof str !== 'string') str = str.toString()
-        var alen = len + 1 - str.length
-        if (alen <= 0) return str
+        if (!len || len < 0) return '';
+        if (str === undefined || str === null) str = '';
+        if (typeof pad === 'undefined') pad = ' ';
+        if (typeof str !== 'string') str = str.toString();
+        var alen = len + 1 - str.length;
+        if (alen <= 0) return str;
         return str + Array(len + 1 - str.length).join(pad)
-    }
+    };
 
     /**
      * Center align a string by padding it at a given length
@@ -107,19 +107,19 @@
      */
 
     AsciiTable.alignCenter = function (str, len, pad) {
-        if (!len || len < 0) return ''
-        if (str === undefined || str === null) str = ''
-        if (typeof pad === 'undefined') pad = ' '
-        if (typeof str !== 'string') str = str.toString()
+        if (!len || len < 0) return '';
+        if (str === undefined || str === null) str = '';
+        if (typeof pad === 'undefined') pad = ' ';
+        if (typeof str !== 'string') str = str.toString();
         var nLen = str.length
             , half = Math.floor(len / 2 - nLen / 2)
             , odds = Math.abs((nLen % 2) - (len % 2))
-            , len = str.length
+            , len = str.length;
 
         return AsciiTable.alignRight('', half, pad)
             + str
             + AsciiTable.alignLeft('', half + odds, pad)
-    }
+    };
 
     /**
      * Right align a string by padding it at a given length
@@ -131,12 +131,12 @@
      */
 
     AsciiTable.alignRight = function (str, len, pad) {
-        if (!len || len < 0) return ''
-        if (str === undefined || str === null) str = ''
-        if (typeof pad === 'undefined') pad = ' '
-        if (typeof str !== 'string') str = str.toString()
-        var alen = len + 1 - str.length
-        if (alen <= 0) return str
+        if (!len || len < 0) return '';
+        if (str === undefined || str === null) str = '';
+        if (typeof pad === 'undefined') pad = ' ';
+        if (typeof str !== 'string') str = str.toString();
+        var alen = len + 1 - str.length;
+        if (alen <= 0) return str;
         return Array(len + 1 - str.length).join(pad) + str
     }
 
@@ -150,7 +150,7 @@
      */
 
     AsciiTable.alignAuto = function (str, len, pad) {
-        if (str === undefined || str === null) str = ''
+        if (str === undefined || str === null) str = '';
         var type = toString.call(str)
         pad || (pad = ' ')
         len = +len
@@ -279,7 +279,14 @@
     }
 
 
-    AsciiTable.prototype.addFooter = function (footer){
+    /**
+     * Set the footer of the table
+     *
+     * @param {String || Array} footer
+     * @api public
+     */
+
+    AsciiTable.prototype.addFooter = function (footer) {
 
         if (arguments.length > 1 || toString.call(footer) !== '[object Array]') {
             footer = slice.call(arguments);
@@ -350,7 +357,7 @@
             row = slice.call(arguments)
         }
         this.__heading = row
-        console.log("head",this.__heading);
+        console.log("head", this.__heading);
         return this
     }
 
@@ -609,11 +616,18 @@
     }
 
 
-    AsciiTable.prototype._renderFooter = function (len){
+    /**
+     * Render the table footer in a centered box
+     *
+     * @param {Number} string size
+     * @return {String} formatted footer
+     * @api private
+     */
+    AsciiTable.prototype._renderFooter = function (len) {
 
-        var makeFooter = function(i, footer){
+        var makeFooter = function (i, footer) {
 
-            var temp = ' '+ (i+1) +'.' + footer + ' ';
+            var temp = ' ' + (i + 1) + '.' + footer + ' ';
 
             var str = AsciiTable.align(AsciiTable.LEFT, temp, len - 1, ' ');
 
@@ -622,7 +636,7 @@
 
         var res = "";
 
-        for(var i = 0; i < this.__footer.length; i++){
+        for (var i = 0; i < this.__footer.length; i++) {
 
             res = res + this.__edge + makeFooter(i, this.__footer[i]) + this.__edge + "\n";
         }
